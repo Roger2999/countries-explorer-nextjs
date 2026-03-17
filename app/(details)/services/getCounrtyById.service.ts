@@ -1,4 +1,4 @@
-import { CountryById } from "@/app/models/countriesbyIdResponse.model";
+import { CountryById } from "../models/countriesbyIdResponse.model";
 
 export const getCountryById = async (slot: string): Promise<CountryById[]> => {
   const response = await fetch(`https://restcountries.com/v3.1/alpha/${slot}`, {

@@ -3,6 +3,7 @@ export interface Country {
   name: Name;
   tld: string[];
   cca2: string;
+  cca3: string;
   currencies: Currencies;
   capital: string[];
   region: string;

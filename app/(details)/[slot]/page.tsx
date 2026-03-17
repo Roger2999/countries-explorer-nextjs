@@ -1,4 +1,4 @@
-import { getCountryById } from "@/app/services/getCounrtyById.service";
+import { getCountryById } from "../services/getCounrtyById.service";
 
 const CountryDetails = async ({
   params,

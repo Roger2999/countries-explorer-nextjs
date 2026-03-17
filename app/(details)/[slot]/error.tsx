@@ -15,9 +15,12 @@ export default function Error({
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
+    <div className="flex flex-col items-center gap-10 pt-20">
+      <h2 className="text-xl">
+        Something went wrong!: {error.message.toUpperCase()}
+      </h2>
       <button
+        className="border border-white/20 py-1 px-2 rounded-sm backdrop-blur-xl hover:bg-white/10 active:scale-105"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()
