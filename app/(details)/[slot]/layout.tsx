@@ -3,5 +3,5 @@ export default function DetailsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main>{children}</main>;
+  return <div>{children}</div>;
 }

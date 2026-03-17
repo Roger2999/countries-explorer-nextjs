@@ -3,5 +3,5 @@ export default function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="max-w-3xl mx-auto ">{children}</main>;
+  return <div className="max-w-3xl mx-auto ">{children}</div>;
 }

@@ -1,4 +1,4 @@
-import { Country } from "@/app/models/countriesResponse.model";
+import { Country } from "@/app/(home)/models/countriesResponse.model";
 
 export const getCountries = async (): Promise<Country[]> => {
   const response = await fetch(
