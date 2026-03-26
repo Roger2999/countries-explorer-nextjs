@@ -7,7 +7,7 @@ interface Props {
 }
 const CountryDetail = ({ country }: Props) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-10">
+    <div className="flex flex-col items-center justify-center lg:flex-row gap-10">
       {country.map((c) => (
         <Fragment key={c.cca3}>
           <figure className="relative w-full lg:w-xl h-52 lg:h-72 overflow-hidden">

@@ -11,7 +11,7 @@ const CountryDetails = async ({
   const country = await getCountryById(slot);
   return (
     <>
-    <BackButton />
+    <BackButton className="border py-1 px-2" />
     <CountryDetail country={country} />
     </>
     
