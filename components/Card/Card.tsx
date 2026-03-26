@@ -1,3 +1,4 @@
+import Description from "@/app/(home)/components/Description/Description";
 import { Country } from "@/app/(home)/models/countriesResponse.model";
 import Image from "next/image";
 
@@ -16,21 +17,23 @@ const Card = ({ country }: Props) => {
           className="object-cover"
         />
       </figure>
-      <div className="description-container flex flex-col flex-1 py-6 px-8 gap-1">
-        <p className="text-2xl font-semibold">{country.name.common}</p>
+      <Description>
+        <p className="text-2xl font-semibold">
+          {country.name.common ? country.name.common : "Unknow"}
+        </p>
         <p>
           <span className="font-semibold">Poulation: </span>
-          {country.population}
+          {country.population ? country.population : "Unknow"}
         </p>
         <p>
           <span className="font-semibold">Region: </span>
-          {country.region}
+          {country.region ? country.region : "Unknow"}
         </p>
         <p>
           <span className="font-semibold">Capital: </span>
-          {country.capital}
+          {country.capital ? country.capital : "Unknow"}
         </p>
-      </div>
+      </Description>
     </div>
   );
 };

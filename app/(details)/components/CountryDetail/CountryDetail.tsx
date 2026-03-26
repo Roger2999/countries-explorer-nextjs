@@ -1,42 +1,77 @@
 import Image from "next/image";
 import { CountryById } from "../../models/countriesbyIdResponse.model";
-import { Fragment } from "react/jsx-runtime";
-
 interface Props {
-  country: CountryById[];
+  country: CountryById;
 }
 const CountryDetail = ({ country }: Props) => {
+  const currencies =
+    country?.currencies &&
+    Object.values(country.currencies)
+      .map((c: { name: string }) => c.name)
+      .join(", ");
+  const languages =
+    country?.languages && Object.values(country.languages).join(", ");
+  const nativeName =
+    country?.name?.nativeName &&
+    Object.values(country.name.nativeName)[0]?.common;
+  const population = country?.population?.toLocaleString();
+  const region = country?.region;
+  const subregion = country?.subregion;
+  const capital = country?.capital?.join(", ");
+  const topLevelDomain = country?.tld?.join(", ");
   return (
-    <div className="flex flex-col items-center justify-center lg:flex-row gap-10 lg:items-start">
-      {country.map((c) => (
-        <Fragment key={c.cca3}>
-          <figure className="relative w-full lg:max-w-xl h-52 lg:h-60 overflow-hidden">
-            <Image
-              src={c.flags.svg}
-              priority
-              fill
-              alt={`${c.name.common}-flag`}
-              className="object-container"
-            />
-          </figure>
-          <div className="info-container flex flex-col gap-10">
-          <div className="description-container flex flex-col flex-wrap md:flex-row gap-10 max-w-xl">
-            <p><span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos commodi, consequuntur maxime porro quam consequatur. Unde, earum aspernatur quis cumque fugiat soluta minima, est rerum iure ea ab culpa. Atque?</span></p>
-            <p><span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste, aut nihil quasi possimus obcaecati architecto, dolorum, consequuntur pariatur eveniet rerum aperiam ratione odit facere. Similique nam aspernatur eaque sequi voluptate!</span></p>
-            <p><span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste, aut nihil quasi possimus obcaecati architecto, dolorum, consequuntur pariatur eveniet rerum aperiam ratione odit facere. Similique nam aspernatur eaque sequi voluptate!</span></p>
-            <p><span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste, aut nihil quasi possimus obcaecati architecto, dolorum, consequuntur pariatur eveniet rerum aperiam ratione odit facere. Similique nam aspernatur eaque sequi voluptate!</span></p>
-            <p><span>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste, aut nihil quasi possimus obcaecati architecto, dolorum, consequuntur pariatur eveniet rerum aperiam ratione odit facere. Similique nam aspernatur eaque sequi voluptate!</span></p>
-          </div>
-          <div className="borders flex flex-wrap gap-5">
-            <p>borders</p>
-            <p>borders</p>
-            <p>borders</p>
-            <p>borders</p>
-          </div>
+    <div className="flex flex-col items-start justify-center sm:flex-row gap-8 sm:items-start">
+      <figure className="relative w-full aspect-video max-w-md sm:max-w-xl overflow-hidden">
+        <Image
+          src={country.flags.svg}
+          priority
+          fill
+          alt={`${country.name.common}-flag`}
+          className="object-cover"
+        />
+      </figure>
+
+      <div className="flex flex-col gap-8">
+        <h1 className="text-3xl font-extrabold">{country.name.common}</h1>
+
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
+          <div className="flex flex-col gap-3">
+            <p>
+              <span className="font-semibold">Native Name:</span>{" "}
+              {nativeName || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Population:</span>{" "}
+              {population || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Region:</span> {region || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Sub Region:</span>{" "}
+              {subregion || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Capital:</span> {capital || "N/A"}
+            </p>
           </div>
 
-        </Fragment>
-      ))}
+          <div className="flex flex-col gap-3">
+            <p>
+              <span className="font-semibold">Top Level Domain:</span>{" "}
+              {topLevelDomain || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Currencies:</span>{" "}
+              {currencies || "N/A"}
+            </p>
+            <p>
+              <span className="font-semibold">Languages:</span>{" "}
+              {languages || "N/A"}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

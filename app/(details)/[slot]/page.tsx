@@ -8,13 +8,13 @@ const CountryDetails = async ({
   params: Promise<{ slot: string }>;
 }) => {
   const { slot } = await params;
-  const country = await getCountryById(slot);
+  const countryArray = await getCountryById(slot);
+  const country = countryArray[0];
   return (
     <>
-    <BackButton className="border py-1 px-2" />
-    <CountryDetail country={country} />
+      <BackButton className="border py-1 px-2" />
+      <CountryDetail country={country} />
     </>
-    
   );
 };
 export default CountryDetails;
