@@ -10,10 +10,11 @@ const CountryDetails = async ({
   const { slot } = await params;
   const country = await getCountryById(slot);
   return (
-    <div className="flex flex-col">
-      <BackButton />
-      <CountryDetail country={country} />
-    </div>
+    <>
+    <BackButton />
+    <CountryDetail country={country} />
+    </>
+    
   );
 };
 export default CountryDetails;

@@ -7,17 +7,32 @@ interface Props {
 }
 const CountryDetail = ({ country }: Props) => {
   return (
-    <div className="flex flex-col sm:flex-row">
+    <div className="flex flex-col lg:flex-row gap-10">
       {country.map((c) => (
         <Fragment key={c.cca3}>
-          <figure className="relative w-32 h-60">
+          <figure className="relative w-full lg:w-xl h-52 lg:h-72 overflow-hidden">
             <Image
               src={c.flags.svg}
               priority
               fill
               alt={`${c.name.common}-flag`}
+              className="object-container"
             />
           </figure>
+          <div className="description-container flex flex-col flex-wrap md:flex-row gap-10">
+            <p><span></span></p>
+            <p><span></span></p>
+            <p><span></span></p>
+            <p><span></span></p>
+            <p><span></span></p>
+          </div>
+          <div className="borders flex flex-wrap gap-5">
+            <p>borders</p>
+            <p>borders</p>
+            <p>borders</p>
+            <p>borders</p>
+          </div>
+
         </Fragment>
       ))}
     </div>
