@@ -10,6 +10,7 @@ const CountryDetails = async ({
   const { slot } = await params;
   const countryArray = await getCountryById(slot);
   const country = countryArray[0];
+
   return (
     <>
       <BackButton className="border py-1 px-2" />

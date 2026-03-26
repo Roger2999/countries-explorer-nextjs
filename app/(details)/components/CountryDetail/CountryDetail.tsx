@@ -1,9 +1,14 @@
 import Image from "next/image";
 import { CountryById } from "../../models/countriesbyIdResponse.model";
+import Link from "next/link";
+import { getBorderCountries } from "../../services/getBorderCountries.service";
 interface Props {
   country: CountryById;
 }
-const CountryDetail = ({ country }: Props) => {
+const CountryDetail = async ({ country }: Props) => {
+  const borderCountries = country.borders?.length 
+    ? await getBorderCountries(country.borders.join(","))
+    : [];
   const currencies =
     country?.currencies &&
     Object.values(country.currencies)
@@ -68,6 +73,24 @@ const CountryDetail = ({ country }: Props) => {
             <p>
               <span className="font-semibold">Languages:</span>{" "}
               {languages || "N/A"}
+            </p>
+          </div>
+          <div className="flex flex-col gap-3">
+            <p className="flex flex-wrap gap-5">
+              <span className="font-semibold">Borders:</span>
+              {borderCountries && borderCountries.length > 0 ? (
+                borderCountries.map((border) => (
+                  <Link
+                    key={border.cca3}
+                    href={`/country/${border.cca3}`}
+                    className="rounded-sm border px-3 py-1"
+                  >
+                    {border.name.common}
+                  </Link>
+                ))
+              ) : (
+                <span>--</span>
+              )}
             </p>
           </div>
         </div>
