@@ -3,5 +3,5 @@ export default function DetailsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="flex flex-col gap-10">{children}</div>;
+  return <div className="flex flex-col gap-10 px-10">{children}</div>;
 }

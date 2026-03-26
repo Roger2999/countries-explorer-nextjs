@@ -10,7 +10,7 @@ const CountryDetail = ({ country }: Props) => {
     <div className="flex flex-col items-center justify-center lg:flex-row gap-10 lg:items-start">
       {country.map((c) => (
         <Fragment key={c.cca3}>
-          <figure className="relative w-full lg:max-w-xl h-52 lg:h-72 overflow-hidden">
+          <figure className="relative w-full lg:max-w-xl h-52 lg:h-60 overflow-hidden">
             <Image
               src={c.flags.svg}
               priority
