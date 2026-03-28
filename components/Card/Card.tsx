@@ -7,8 +7,8 @@ interface Props {
 }
 const Card = ({ country }: Props) => {
   return (
-    <div className="flex flex-col w-full h-full">
-      <figure className="flag-image-container relative flex-1 overflow-hidden">
+    <div className="flex flex-col h-full w-full">
+      <figure className="flag-image-container relative aspect-video flex-1 overflow-hidden">
         <Image
           src={country?.flags?.svg}
           alt={country?.name?.common}

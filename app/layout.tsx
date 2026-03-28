@@ -29,7 +29,6 @@ export default function RootLayout({
       >
         <header>header</header>
         <main className="flex-1 w-full px-5 md:px-10 pt-10">{children}</main>
-        <footer>Footer</footer>
       </body>
     </html>
   );
