@@ -24,7 +24,7 @@ const RegionSelect = ({regions}:{regions:string[]}) => {
      >
        <SelectValue placeholder="Filter by Region" />
      </SelectTrigger>
-      <SelectContent position="popper" align="center" className="bg-gray-100">
+      <SelectContent position="popper" align="center" >
         <SelectItem value={"all"}>All</SelectItem>
         {regions.map((r) => (
           <SelectItem key={r} value={r}>
