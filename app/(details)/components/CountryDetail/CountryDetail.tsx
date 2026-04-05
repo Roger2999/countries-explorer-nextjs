@@ -6,7 +6,7 @@ interface Props {
   country: CountryById;
 }
 const CountryDetail = async ({ country }: Props) => {
-  const borderCountries = country.borders?.length 
+  const borderCountries = country.borders?.length
     ? await getBorderCountries(country.borders.join(","))
     : [];
   const currencies =
@@ -25,8 +25,8 @@ const CountryDetail = async ({ country }: Props) => {
   const capital = country?.capital?.join(", ");
   const topLevelDomain = country?.tld?.join(", ");
   return (
-    <div className="flex flex-col items-start justify-center sm:flex-row gap-8 sm:items-start">
-      <figure className="relative w-full aspect-video max-w-md sm:max-w-xl overflow-hidden">
+    <div className="flex flex-col items-start justify-center md:flex-row gap-8 md:items-start md:gap-12 lg:gap-20">
+      <figure className="relative w-full max-w-xl aspect-video  md:max-w-xl md:min-w-sm overflow-hidden">
         <Image
           src={country.flags.svg}
           priority
@@ -75,24 +75,26 @@ const CountryDetail = async ({ country }: Props) => {
               {languages || "N/A"}
             </p>
           </div>
-          <div className="flex flex-col gap-3">
-            <p className="flex flex-wrap gap-5">
-              <span className="font-semibold">Borders:</span>
-              {borderCountries && borderCountries.length > 0 ? (
-                borderCountries.map((border) => (
-                  <Link
-                    key={border.cca3}
-                    href={`/country/${border.cca3}`}
-                    className="rounded-sm border px-3 py-1"
-                  >
-                    {border.name.common}
-                  </Link>
-                ))
-              ) : (
-                <span>--</span>
-              )}
-            </p>
-          </div>
+        </div>
+        <div className="flex flex-col gap-3">
+          <p className="flex flex-wrap gap-5">
+            <span className="flex items-center justify-center font-semibold">
+              Borders:
+            </span>
+            {borderCountries && borderCountries.length > 0 ? (
+              borderCountries.map((border) => (
+                <Link
+                  key={border.cca3}
+                  href={`/${border.cca3.toLowerCase()}`}
+                  className="rounded-sm border px-3 py-1"
+                >
+                  {border.name.common}
+                </Link>
+              ))
+            ) : (
+              <span>--</span>
+            )}
+          </p>
         </div>
       </div>
     </div>

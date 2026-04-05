@@ -24,7 +24,9 @@ const Countries = async ({
         </form>
       </Suspense>
       {countries && countries.length === 0 && (
-        <div className="text-2xl m-auto w-fit mt-20">No se encontraron paises</div>
+        <div className="text-2xl m-auto w-fit mt-20">
+          No se encontraron paises
+        </div>
       )}
       <ul className={`w-full min-h-full ${styles.gridContainer}`}>
         {countries.map((country) => (

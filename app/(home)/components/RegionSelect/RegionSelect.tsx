@@ -10,7 +10,7 @@ const RegionSelect = ({regions}:{regions:string[]}) => {
   const {replace}= useRouter()
   const handleRegionChange = (value: string) => {
     const params = new URLSearchParams(searchParams)
-    value !== "all" ? params.set("region", value) : params.delete("region")
+    value === "all" || value ? params.set("region", value) : params.delete("region")
     replace(`${pathname}?${params.toString()}`)
   }
 
@@ -24,10 +24,10 @@ const RegionSelect = ({regions}:{regions:string[]}) => {
      >
        <SelectValue placeholder="Filter by Region" />
      </SelectTrigger>
-      <SelectContent position="popper" align="center" >
-        <SelectItem value={"all"}>All</SelectItem>
+      <SelectContent position="popper" align="center" className="py-2" >
+        <SelectItem className="px-4" value={"all"}>All</SelectItem>
         {regions.map((r) => (
-          <SelectItem key={r} value={r}>
+          <SelectItem className="px-4" key={r} value={r}>
             {r}
           </SelectItem>
         ))}
