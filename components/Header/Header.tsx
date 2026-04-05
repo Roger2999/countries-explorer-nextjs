@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
-
+import {Sun,Moon} from "lucide-react"
 const Header = () => {
   const { theme, setTheme } = useTheme();
   return (
@@ -12,6 +12,7 @@ const Header = () => {
         variant={"ghost"}
         aria-label={`${theme==="light"?"light-mode":"dark-mode"}`}
       >
+        {theme === "light" ? <Moon/> :<Sun/> }
         {theme === "light" ? "Dark Mode" : "Light Mode"}
       </Button>
     </header>
