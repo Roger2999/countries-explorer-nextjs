@@ -72,13 +72,21 @@ async function requestV5(url: string): Promise<V5Page> {
     );
   }
   const body: unknown = await response.json();
-  const objects = (body as { data?: { objects?: V5Country[] } })?.data?.objects;
+  const data = (
+    body as {
+      data?: { objects?: V5Country[]; meta?: { total?: number }; _demo?: unknown };
+    }
+  )?.data;
+  if (data?._demo) {
+    throw new Error(
+      "La API respondió con datos demo: configura RESTCOUNTRIES_API_KEY con una key real (https://restcountries.com/sign-up) para obtener datos completos",
+    );
+  }
+  const objects = data?.objects;
   if (!Array.isArray(objects)) {
     throw new Error("Unexpected API response format");
   }
-  const total =
-    (body as { data?: { meta?: { total?: number } } })?.data?.meta?.total ??
-    objects.length;
+  const total = data?.meta?.total ?? objects.length;
   return { objects, total };
 }
 
