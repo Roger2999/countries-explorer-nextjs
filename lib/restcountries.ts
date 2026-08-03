@@ -44,6 +44,7 @@ export interface V5Country {
   date?: { start_of_week?: string };
   demonyms?: Record<string, { f: string; m: string }>;
   landlocked?: boolean;
+  continents?: string[];
   languages?: {
     iso639_3?: string;
     name?: string;
