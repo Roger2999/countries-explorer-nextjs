@@ -7,7 +7,7 @@ interface Props {
 }
 const CountryDetail = async ({ country }: Props) => {
   const borderCountries = country.borders?.length
-    ? await getBorderCountries(country.borders.join(","))
+    ? await getBorderCountries(country.cca3)
     : [];
   const currencies =
     country?.currencies &&
