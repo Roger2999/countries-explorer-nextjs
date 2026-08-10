@@ -1,34 +1,50 @@
 import { CountryById } from "../models/countriesbyIdResponse.model";
-import {
-  fetchCountriesByProperty,
-  V5Country,
-  V5Native,
-} from "@/lib/restcountries";
 
-const fromNative = (native: Record<string, V5Native> | undefined) =>
-  native
-    ? Object.fromEntries(
-        Object.entries(native).map(([key, value]) => [
-          key,
-          { common: value.common, official: value.official },
-        ]),
-      )
-    : {};
+export interface V5Country {
+  names?: {
+    common?: string;
+    official?: string;
+    native?: Record<string, { common: string; official: string }>;
+  };
+  codes?: {
+    alpha_2?: string;
+    alpha_3?: string;
+    ccn3?: string;
+    cioc?: string;
+    fifa?: string;
+  };
+  flag?: {
+    emoji?: string;
+    url_svg?: string;
+    url_png?: string;
+    description?: string;
+  };
+  capitals?: { name: string; coordinates?: { lat: number; lng: number } }[];
+  currencies?: { code: string; name: string; symbol: string }[];
+  languages?: { iso639_3?: string; name?: string }[];
+  tlds?: string[];
+  borders?: string[];
+  region?: string;
+  subregion?: string;
+  population?: number;
+  area?: { kilometers: number };
+  landlocked?: boolean;
+  timezones?: string[];
+  continents?: string[];
+  coordinates?: { lat: number; lng: number };
+  demonyms?: Record<string, { f: string; m: string }>;
+  cars?: { signs: string[]; driving_side: string };
+  classification?: {
+    sovereign?: boolean;
+    un_member?: boolean;
+    status?: string;
+  };
+  links?: { google_maps?: string; open_street_maps?: string };
+  date?: { start_of_week?: string };
+  postal_code?: { format?: string; regex?: string };
+}
 
 export const toCountryById = (v5: V5Country): CountryById => {
-  const currencies = (v5.currencies ?? []).reduce<
-    Record<string, { name: string; symbol: string }>
-  >((acc, currency) => {
-    acc[currency.code] = { name: currency.name, symbol: currency.symbol };
-    return acc;
-  }, {});
-  const languages = (v5.languages ?? []).reduce<Record<string, string>>(
-    (acc, language) => {
-      if (language.iso639_3) acc[language.iso639_3] = language.name ?? "";
-      return acc;
-    },
-    {},
-  );
   const firstCapital = v5.capitals?.[0];
 
   return {
@@ -64,12 +80,25 @@ export const toCountryById = (v5: V5Country): CountryById => {
     name: {
       common: v5.names?.common ?? "Unknown",
       official: v5.names?.official ?? "",
-      nativeName: fromNative(v5.names?.native) as unknown as CountryById["name"]["nativeName"],
+      nativeName: (v5.names?.native ??
+        {}) as unknown as CountryById["name"]["nativeName"],
     },
-    currencies: currencies as unknown as CountryById["currencies"],
-    languages: languages as unknown as CountryById["languages"],
+    currencies: Object.fromEntries(
+      (v5.currencies ?? []).map((currency) => [
+        currency.code,
+        { name: currency.name, symbol: currency.symbol },
+      ]),
+    ) as unknown as CountryById["currencies"],
+    languages: (v5.languages ?? []).reduce<Record<string, string>>(
+      (acc, language) => {
+        if (language.iso639_3) acc[language.iso639_3] = language.name ?? "";
+        return acc;
+      },
+      {},
+    ) as unknown as CountryById["languages"],
     latlng: [v5.coordinates?.lat ?? 0, v5.coordinates?.lng ?? 0],
-    demonyms: (v5.demonyms ?? {}) as unknown as CountryById["demonyms"],
+    demonyms: (v5.demonyms ??
+      {}) as unknown as CountryById["demonyms"],
     translations: {} as unknown as CountryById["translations"],
     flags: {
       png: v5.flag?.url_png ?? "",
@@ -91,9 +120,19 @@ export const toCountryById = (v5: V5Country): CountryById => {
 };
 
 export const getCountryById = async (slot: string): Promise<CountryById[]> => {
-  const { objects } = await fetchCountriesByProperty("codes.alpha_3", slot);
-  if (objects.length === 0) {
-    throw new Error(`Country not found: ${slot}`);
+  const response = await fetch(
+    `https://api.restcountries.com/countries/v5/codes.alpha_3/${slot}`,
+    {
+      headers: { Authorization: `Bearer ${process.env.RESTCOUNTRIES_API_KEY}` },
+      next: { revalidate: 3600 },
+    },
+  );
+  if (!response.ok) {
+    throw new Error(
+      `Error in response: ${response.status}, ${response.statusText}`,
+    );
   }
-  return objects.map(toCountryById);
+  const body = await response.json();
+  const data = (body?.data?.objects ?? []) as V5Country[];
+  return data.map(toCountryById);
 };
